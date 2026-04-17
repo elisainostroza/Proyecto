@@ -14,7 +14,7 @@ Derivada calcular_derivada(const Estado& estado_actual, double m, double q, cons
     return d;
 }
 
-Estado rk4(const Estado& estado_actual, double dt, double m, double q, const Vec& E, const Vec& B) {
+Estado rk4(const Estado& estado_actual, double dt, double m, double q, const Vec& E, const Vec& B) { //implementamos el método de Runge-Kutta de cuarto orden para avanzar el estado de la partícula
     Derivada k1 = calcular_derivada(estado_actual, m, q, E, B);
 
     Estado s2;
@@ -41,22 +41,22 @@ Estado rk4(const Estado& estado_actual, double dt, double m, double q, const Vec
 
 vector<Vec> detectar_intersecciones(Estado estado, double dt, int N, double m, double q, const Vec& E, const Vec& B, const vector<double>& capas, vector<Estado>& trayectoria_completa) {
     vector<Vec> intersecciones;
-    vector<bool> cruzada(capas.size(), false);
+    vector<bool> cruzada(capas.size(), false); //lista para no guardar múltiples intersecciones con la misma capa
 
-    double rho_antes = sqrt(estado.r.x*estado.r.x + estado.r.y*estado.r.y);
+    double rho_antes = sqrt(estado.r.x*estado.r.x + estado.r.y*estado.r.y); //calcula donde está la partícula antes de moverse
     
     trayectoria_completa.push_back(estado);
 
     for(int i = 0; i < N; i++){
         estado = rk4(estado, dt, m, q, E, B);
-        trayectoria_completa.push_back(estado);
+        trayectoria_completa.push_back(estado); //guardamos la trayectoria de la partícula
         
         double rho = sqrt(estado.r.x*estado.r.x + estado.r.y*estado.r.y);
         for(int j = 0; j < capas.size(); j++){
 
-            if(!cruzada[j] && rho_antes < capas[j] && rho >= capas[j]){
-                intersecciones.push_back(estado.r);
-                cruzada[j] = true;
+            if(!cruzada[j] && rho_antes < capas[j] && rho >= capas[j]){ //verificamos si en este paso se cruzó la capa j y si no se había cruzado antes
+                intersecciones.push_back(estado.r); //guardamos la posición de la intersección
+                cruzada[j] = true; //guardamos que esta capa ya fue cruzada para no contarla de nuevo
             }
         }
         rho_antes = rho;

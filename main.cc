@@ -18,14 +18,14 @@ int main() {
     Vec B = {0.0, 0.0, 3.8}; //Definimos un campo magnético uniforme en la dirección z
     
     Estado estado0;
-    estado0.r = {0.0, 0.0, 0.0};
+    estado0.r = {0.0, 0.0, 0.0}; //generamos la partícula en el origen
     estado0.p = {1e-19, 0.0, 2e-20}; 
 
-    vector<double> capas = {0.05, 0.10, 0.20, 0.40, 0.60}; // Radios de las capas del detector en metros
+    vector<double> capas = {0.05, 0.10, 0.20, 0.40, 0.60}; // radios de las capas del detector en metros
     double dt = 1e-11;
     int N = 20000;
 
-    vector<Estado> trayectoria;
+    vector<Estado> trayectoria; //vector para guardar la trayectoria completa de la partícula
     
     // Ejecutamos la simulación
     vector<Vec> intersecciones = detectar_intersecciones(estado0, dt, N, masa_proton, carga_proton, E, B, capas, trayectoria);
