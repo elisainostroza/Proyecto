@@ -1,7 +1,6 @@
 #ifndef ESTRUCTURAS_H
 #define ESTRUCTURAS_H
 
-
 // Estructuras para representar vectores, estado y derivadas
 struct Vec {
     double x, y, z;
@@ -17,6 +16,15 @@ struct Derivada {
     Vec dpdt;
 };
 
+// Estructura para almacenar los parámetros ajustados de la hélice
+struct TrackAjustado {
+    double radio;      // Radio reconstruido en el plano XY 
+    double centro_x;   // Centro del círculo ajustado
+    double centro_y;
+    double pT;         // Momento transversal reconstruido 
+    double pz;         // Momento longitudinal reconstruido 
+    double p_total;    // Magnitud total del momento
+};
 
 // Operadores para facilitar operaciones con vectores
 inline Vec operator+(const Vec& a, const Vec& b) {

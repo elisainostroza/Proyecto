@@ -15,4 +15,10 @@ Estado rk4(const Estado& estado_actual, double dt, double m, double q, const Vec
 //función para detectar las intersecciones de la partícula con las capas del detector, además guarda la trayectoria completa
 vector<Vec> detectar_intersecciones(Estado estado, double dt, int N, double m, double q, const Vec& E, const Vec& B, const vector<double>& capas, vector<Estado>& trayectoria_completa); 
 
+//función para aplicar ruido gaussiano a los hits 
+vector<Vec> ruido(const vector<Vec>& hits_exactos, double sigma_xy, double sigma_z);
+
+//función que ajusta la hélice y calcula el momento de la particula usando mínimos cuadrados
+TrackAjustado ajustar_helice(const vector<Vec>& hits_ruidosos, double B, double q);
+
 #endif
