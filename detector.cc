@@ -50,6 +50,9 @@ vector<Vec> detectar_intersecciones(Estado estado, double dt, int N, double m, d
 
     for(int i = 0; i < N; i++){
         estado = rk4(estado, dt, m, q, E, B);
+
+        if (std::abs(estado.r.z) > 1.5) break; //si la partícula sale del detector, terminamos la simulación
+
         trayectoria_completa.push_back(estado); //guardamos la trayectoria de la partícula
         
         double rho = sqrt(estado.r.x*estado.r.x + estado.r.y*estado.r.y);
@@ -66,9 +69,8 @@ vector<Vec> detectar_intersecciones(Estado estado, double dt, int N, double m, d
 }
 
 
-vector<Vec> ruido(const vector<Vec>& hits_exactos, double sigma_xy, double sigma_z) { //aplicamos ruido gaussiano a los hits exactos para simular la resolución del detector
+vector<Vec> ruido(const vector<Vec>& hits_exactos, double sigma_xy, double sigma_z, TRandom3& generador) { //aplicamos ruido gaussiano a los hits exactos para simular la resolución del detector
     vector<Vec> hits_gauss;
-    TRandom3 generador(0);
 
     for (const auto& hit : hits_exactos) {
         Vec hit_ruido;
